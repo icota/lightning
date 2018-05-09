@@ -76,7 +76,9 @@ LIGHTNINGD_SRC :=				\
 	lightningd/peer_control.c		\
 	lightningd/peer_htlcs.c			\
 	lightningd/subd.c			\
-	lightningd/watch.c
+	lightningd/watch.c			\
+	lightningd/blockchain.c			\
+	lightningd/neutrino.c
 
 # Source files without corresponding headers
 LIGHTNINGD_SRC_NOHDR :=				\

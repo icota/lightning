@@ -98,6 +98,9 @@ struct chain_topology {
 	/* The bitcoind. */
 	struct bitcoind *bitcoind;
 
+	/* The blockchain */
+	struct blockchain *blockchain;
+
 	/* Our timer list. */
 	struct timers *timers;
 

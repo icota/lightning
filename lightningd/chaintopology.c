@@ -2,6 +2,7 @@
 #include "bitcoin/script.h"
 #include "bitcoin/tx.h"
 #include "bitcoind.h"
+#include "blockchain.h"
 #include "chaintopology.h"
 #include "jsonrpc.h"
 #include "lightningd.h"
@@ -17,6 +18,8 @@
 #include <common/utils.h>
 #include <inttypes.h>
 #include <lightningd/gossip_control.h>
+
+#include "blockchain.h"
 
 /* Mutual recursion via timer. */
 static void try_extend_tip(struct chain_topology *topo);
@@ -214,6 +217,9 @@ void broadcast_tx(struct chain_topology *topo,
 		type_to_string(tmpctx, struct bitcoin_txid, &otx->txid));
 
 	wallet_transaction_add(topo->wallet, tx, 0, 0);
+
+	//replace
+	//blockchain_setup();//topo->bitcoind, otx->hextx, broadcast_done, otx);
 	bitcoind_sendrawtx(topo->bitcoind, otx->hextx, broadcast_done, otx);
 }
 
@@ -719,6 +725,7 @@ struct chain_topology *new_topology(struct lightningd *ld, struct log *log)
 	topo->default_fee_rate = 40000;
 	topo->override_fee_rate = NULL;
 	topo->bitcoind = new_bitcoind(topo, ld, log);
+	topo->blockchain = new_blockchain(topo, ld, log);
 	topo->wallet = ld->wallet;
 	return topo;
 }
